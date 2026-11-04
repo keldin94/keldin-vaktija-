@@ -56,7 +56,7 @@ footer{display:flex;justify-content:space-between;align-items:center;padding-top
 <label for="citySelect">Grad</label><select id="citySelect"></select>
 <label for="orientation">Izgled</label><select id="orientation"><option value="auto">Automatski prema ekranu</option><option value="landscape">Horizontalni</option><option value="portrait">Vertikalni</option></select>
 <div class="tiny">Na Android TV-u fizička rotacija slike zavisi od podrške uređaja. Odabrani izgled samo prilagođava raspored elemenata.</div>
-<div class="buttons"><button class="cancel" id="cancel">Otkaži</button><button class="save" id="save">Sačuvaj</button></div></div></div>
+<div class="buttons"><button class="cancel" id="checkUpdate" style="margin-right:auto;display:none">Ažuriranja</button><button class="cancel" id="cancel">Otkaži</button><button class="save" id="save">Sačuvaj</button></div></div></div>
 <script>
 (function(){
 "use strict";
@@ -65,7 +65,7 @@ const cityChoices=[["Sarajevo",77],["Kladanj",48],["Tuzla",93],["Zenica",102],["
 const $=id=>document.getElementById(id);
 const ZONE="Europe/Sarajevo";
 const fmt=(opts)=>new Intl.DateTimeFormat("bs-BA",Object.assign({timeZone:ZONE},opts)).format(new Date());
-const isoAt=(dt)=>new Intl.DateTimeFormat("en-CA",{timeZone:ZONE,year:"numeric",month:"2-digit",day:"2-digit"}).format(dt);
+const isoAt=(dt)=>{const p=new Intl.DateTimeFormat("en-GB",{timeZone:ZONE,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(dt);const part=x=>p.find(v=>v.type===x).value;return part("year")+"-"+part("month")+"-"+part("day")};
 const dateNow=()=>isoAt(new Date());
 const timeNow=()=>fmt({hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
 let settings;
@@ -112,6 +112,7 @@ async function load(force){if(loading)return;loading=true;const date=dateNow(); 
 function openSettings(){$("mosqueInput").value=settings.mosque;$("citySelect").value=String(settings.city);$("orientation").value=settings.orientation||"auto";$("modal").classList.add("open");$("mosqueInput").focus()}
 function closeSettings(){$("modal").classList.remove("open")}
 $("settingsBtn").onclick=openSettings;$("cancel").onclick=closeSettings;
+if(window.NurAndroid && typeof window.NurAndroid.checkForUpdates==="function"){$("checkUpdate").style.display="block";$("checkUpdate").onclick=()=>window.NurAndroid.checkForUpdates()}
 $("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeSettings()});
 $("citySelect").innerHTML=cityChoices.map(([name,id])=>'<option value="'+id+'">'+name+'</option>').join("");
 $("save").onclick=()=>{const city=Number($("citySelect").value),mosque=$("mosqueInput").value.trim();settings.city=city;settings.cityName=cityChoices.find(v=>v[1]===city)[0];settings.mosque=mosque||"Džamija • "+settings.cityName;settings.orientation=$("orientation").value;localStorage.setItem("nur-config",JSON.stringify(settings));apply();closeSettings();lastISO="";today=null;load(true)}
