@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#062d2e"><title>Nur Vaktija — digitalna vaktija</title>
+<style>
+:root{font-family:Inter,"Segoe UI",Arial,sans-serif;color:#f9f4df;background:#041f22;font-synthesis:none}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden}
+body{background:radial-gradient(ellipse 70% 85% at 22% 40%,#126d64 0%,#074342 32%,transparent 70%),radial-gradient(ellipse 55% 65% at 90% 15%,#235b54 0%,transparent 70%),linear-gradient(126deg,#052c31,#042226 60%,#021c22);color:#fff9e9}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(45deg,transparent 0,transparent 89px,rgba(244,211,135,.028) 90px,transparent 91px),repeating-linear-gradient(-45deg,transparent 0,transparent 89px,rgba(244,211,135,.024) 90px,transparent 91px)}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 100%,transparent 45%,rgba(0,11,16,.43) 100%)}
+.orbit{position:fixed;border:1px solid rgba(233,203,125,.15);border-radius:50%;width:65vmin;height:65vmin;right:-13vmin;top:-27vmin;pointer-events:none}
+.orbit:after{content:"";position:absolute;inset:12%;border:1px solid rgba(233,203,125,.1);border-radius:50%}
+.star{position:fixed;right:9vw;top:9vh;width:12vmin;height:12vmin;opacity:.65;pointer-events:none}
+.star path{fill:none;stroke:#e5bb70;stroke-width:1.5}
+.scenery{position:fixed;bottom:0;left:0;width:100%;height:36%;opacity:.22;pointer-events:none}
+main{position:relative;z-index:1;height:100dvh;min-height:0;padding:3.5vh 4.7vw 3vh;display:flex;flex-direction:column}
+header{display:flex;justify-content:space-between;align-items:center;gap:25px}
+.brand{display:flex;align-items:center;gap:16px}.brand-icon{height:58px;width:58px;flex-shrink:0;display:grid;place-items:center;border:1px solid rgba(255,219,139,.47);border-radius:19px;background:linear-gradient(150deg,rgba(252,216,128,.19),rgba(4,58,57,.4));box-shadow:0 8px 30px #0019}.brand-icon svg{width:35px;height:35px}
+.kicker{font-size:clamp(10px,.9vw,16px);letter-spacing:.25em;color:#d7ba84;font-weight:700;text-transform:uppercase}.mosque{font-size:clamp(16px,1.7vw,32px);font-weight:740;letter-spacing:-.02em;margin-top:4px}.dateblock{display:flex;align-items:center;gap:25px}.datearea{text-align:right}.date{font-size:clamp(12px,1.12vw,21px);font-weight:600}.city{font-size:clamp(10px,.9vw,15px);margin-top:6px;color:#aed2c8}.liveclock{font-size:clamp(25px,3vw,58px);font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.055em;color:#ffe1a2}.gear{background:transparent;border:0;color:#cce6de;font-size:25px;opacity:.35;cursor:pointer;padding:10px}.gear:hover,.gear:focus-visible{opacity:1}
+.hero{flex:1;min-height:0;display:flex;align-items:center;position:relative}.hero-left{max-width:70%;padding-top:1vh}
+.pill{font-size:clamp(12px,1.08vw,20px);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#ffdd9c;display:flex;align-items:center;gap:12px}.pill:before{content:"";width:8px;height:8px;background:#f7ce7f;border-radius:50%;box-shadow:0 0 13px #ffd88b}
+.next-title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(65px,11.5vw,220px);font-weight:400;letter-spacing:-.052em;line-height:1.02;margin:.025em 0 .1em;text-shadow:0 8px 40px rgba(0,9,14,.16)}
+.count-wrap{display:flex;gap:22px;align-items:center}.count{font-size:clamp(24px,3.85vw,75px);font-weight:660;font-variant-numeric:tabular-nums;letter-spacing:.01em;color:#f4ce84}.count-label{font-size:clamp(11px,1.12vw,20px);line-height:1.5;color:#afd5c7}.progress{margin-top:2.4vh;width:min(43vw,820px);height:5px;background:rgba(255,255,255,.13);border-radius:100px;overflow:hidden}.progress>div{height:100%;width:0%;background:linear-gradient(90deg,#a5e1ca,#f6cb78);border-radius:100px;transition:width 1s}
+.hero-side{position:absolute;right:3vw;top:50%;transform:translateY(-50%);text-align:center;opacity:.85}.hero-side .arabic{font-family:"Times New Roman",serif;font-size:clamp(35px,4vw,80px);line-height:1.5;color:#f9da9a;direction:rtl}.hero-side small{font-size:clamp(10px,.9vw,17px);letter-spacing:.25em;color:#b7d7cb}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.35vh}.sectionhead h2{font-size:clamp(11px,1vw,18px);font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:#d3ddcf;margin:0}.sectionhead span{font-size:clamp(10px,.85vw,16px);color:#9ac3b6}
+.prayers{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1.05vw}
+.prayer{position:relative;min-width:0;min-height:clamp(105px,15vh,185px);border-radius:clamp(13px,1.4vw,25px);padding:clamp(14px,1.7vw,32px);background:rgba(4,44,48,.62);border:1px solid rgba(188,237,215,.15);box-shadow:0 12px 30px rgba(0,16,20,.12);display:flex;flex-direction:column;justify-content:space-between}
+.prayer.next{background:linear-gradient(155deg,#eacb8d,#d9a85c);color:#073f42;border-color:#f4d49c;box-shadow:0 10px 45px #0003}.prayer-name{font-size:clamp(13px,1.2vw,24px);font-weight:650;white-space:nowrap}.prayer-time{font-size:clamp(23px,2.65vw,49px);font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.04em}.prayer small{position:absolute;right:12px;top:13px;font-size:11px;font-weight:700;letter-spacing:.1em;color:#0a5854}
+footer{display:flex;justify-content:space-between;align-items:center;padding-top:1.8vh;color:#9ebfb6;font-size:clamp(10px,.77vw,14px)}footer b{color:#efd18c;font-weight:500}
+.warn{font-size:clamp(11px,1vw,15px);color:#ffd9a0}.modal{position:fixed;z-index:9;inset:0;background:rgba(0,16,22,.86);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(16px)}.modal.open{display:flex}
+.panel{width:min(640px,95vw);max-height:92vh;overflow:auto;background:#084343;border:1px solid #467f75;box-shadow:0 30px 110px #001e;border-radius:28px;padding:30px}
+.panel h2{font-size:28px;margin:0 0 7px;color:#f5d48e}.panel p{color:#b8d9cd;margin:0 0 23px;font-size:14px}.panel label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#b9dbcd;margin:17px 0 7px}
+.panel input,.panel select{width:100%;padding:13px 16px;font-size:16px;color:#fff9e9;background:#063233;border:1px solid #478077;border-radius:12px;outline:0}.panel input:focus,.panel select:focus{border-color:#e6c277}
+.buttons{display:flex;gap:10px;justify-content:flex-end;margin-top:25px}.buttons button{border:0;padding:14px 20px;border-radius:12px;font-weight:700;cursor:pointer}.save{background:#edcc88;color:#073638}.cancel{background:#296461;color:white}
+.tiny{font-size:12px;color:#b1d2c5;margin-top:12px}
+@media(max-aspect-ratio:4/3){html,body{overflow:auto}main{min-height:100dvh;height:auto;padding:28px 5vw 22px}.hero{min-height:38vh;flex:unset}.hero-left{max-width:100%}.hero-side{opacity:.22;right:0}.next-title{font-size:clamp(78px,16vw,150px)}.progress{width:80%}.prayers{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.prayer{min-height:13vh;padding:24px}.prayer-name{font-size:clamp(16px,2.3vw,28px)}.prayer-time{font-size:clamp(33px,5vw,58px)}footer{padding:25px 0 0} .arabic{display:none}}
+@media(max-width:600px){main{padding:20px 18px}.brand-icon{height:43px;width:43px;border-radius:13px}.brand-icon svg{height:29px;width:29px}.brand{gap:9px}.kicker{font-size:8px}.mosque{font-size:15px}.datearea{display:none}.dateblock{gap:2px}.liveclock{font-size:23px}.hero{min-height:35vh}.hero-side{display:none}.next-title{font-size:clamp(65px,19vw,140px)}.pill{font-size:10px}.count{font-size:29px}.count-label{font-size:11px}.prayer{min-height:108px;padding:16px}.prayer-name{font-size:15px}.prayer-time{font-size:27px}footer{font-size:10px;gap:10px}}
+@media(max-height:560px) and (min-aspect-ratio:1.3){main{padding-top:2vh}.brand-icon{height:38px;width:38px;border-radius:12px}.brand-icon svg{height:26px;width:26px}.hero{align-items:center}.next-title{font-size:clamp(48px,10vw,125px)}.prayer{min-height:91px;padding:12px}.prayer-time{font-size:clamp(20px,2.1vw,42px)}.count{font-size:clamp(20px,3vw,45px)}}
+</style>
+</head>
+<body>
+<div class="orbit"></div><svg class="star" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0 62 34 98 50 62 62 50 100 38 62 2 50 38 38Z"/><circle cx="50" cy="50" r="28"/></svg>
+<svg class="scenery" viewBox="0 0 1400 280" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="s" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#4c9b8e"/><stop offset="1" stop-color="#021a21"/></linearGradient></defs><path fill="url(#s)" d="M0 280V205h75v-92h12V70h7v43h10v92h66v-65q50-70 100 0v65h65V126h12V70h8v56h12v79h65v-55q90-111 180 0v55h65v-75h12V80h8v50h12v75h80v-93q80-110 160 0v93h80V140h10V62h7v78h10v65h90v-62q65-98 130 0v62h85v-93h10V65h7v47h10v93h110v75Z"/></svg>
+<main>
+<header>
+<div class="brand"><div class="brand-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M30 8a17 17 0 1 0 10 29C25 42 13 28 19 14c2-5 6-8 11-6Z" fill="#f7d286"/><path d="m35 13 2.1 5.8L43 21l-5.9 2.1L35 29l-2.1-5.9L27 21l5.9-2.2L35 13Z" fill="#f7d286"/></svg></div><div><div class="kicker">DIGITALNA VAKTIJA</div><div class="mosque" id="mosque">Džamija • Sarajevo</div></div></div>
+<div class="dateblock"><div class="datearea"><div class="date" id="date">—</div><div class="city" id="location">Sarajevo, Bosna i Hercegovina</div></div><div class="liveclock" id="clock">--:--</div><button class="gear" title="Postavke (S ili držite OK)" id="settingsBtn" aria-label="Postavke">⚙</button></div>
+</header>
+<section class="hero"><div class="hero-left"><div class="pill">SLJEDEĆI NAMAZ</div><h1 class="next-title" id="nextName">Vaktija</h1><div class="count-wrap"><div class="count" id="count">--:--:--</div><div class="count-label">preostalo do<br>sljedećeg namaza</div></div><div class="progress"><div id="progress"></div></div></div><div class="hero-side"><div class="arabic">﷽</div><small>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</small></div></section>
+<section><div class="sectionhead"><h2>Namaska vremena</h2><span id="todayTag">Danas</span></div><div class="prayers" id="prayers"></div></section>
+<footer><span>Vaktija prema podacima <b>vaktija.ba</b> · <span id="source">Povezivanje…</span></span><span class="warn" id="warn"></span><span>NUR VAKTIJA · v0.1</span></footer>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="panel"><h2>Postavke vaktije</h2><p>Promjene se čuvaju na ovom uređaju i neće nestati nakon ažuriranja aplikacije.</p>
+<label for="mosqueInput">Naziv džamije / objekta</label><input id="mosqueInput" maxlength="65" placeholder="Džamija • Sarajevo">
+<label for="citySelect">Grad</label><select id="citySelect"></select>
+<label for="orientation">Izgled</label><select id="orientation"><option value="auto">Automatski prema ekranu</option><option value="landscape">Horizontalni</option><option value="portrait">Vertikalni</option></select>
+<div class="tiny">Na Android TV-u fizička rotacija slike zavisi od podrške uređaja. Odabrani izgled samo prilagođava raspored elemenata.</div>
+<div class="buttons"><button class="cancel" id="cancel">Otkaži</button><button class="save" id="save">Sačuvaj</button></div></div></div>
+<script>
+(function(){
+"use strict";
+const names=["Sabah","Izlazak sunca","Podne","Ikindija","Akšam","Jacija"];
+const cityChoices=[["Sarajevo",77],["Kladanj",48],["Tuzla",93],["Zenica",102],["Mostar",61],["Travnik",90],["Bihać",2],["Banja Luka",1],["Visoko",97],["Živinice",106],["Goražde",33],["Hadžići",38],["Ilidža (Sarajevo)",77]];
+const $=id=>document.getElementById(id);
+const ZONE="Europe/Sarajevo";
+const fmt=(opts)=>new Intl.DateTimeFormat("bs-BA",Object.assign({timeZone:ZONE},opts)).format(new Date());
+const isoAt=(dt)=>new Intl.DateTimeFormat("en-CA",{timeZone:ZONE,year:"numeric",month:"2-digit",day:"2-digit"}).format(dt);
+const dateNow=()=>isoAt(new Date());
+const timeNow=()=>fmt({hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
+let settings;
+try{settings=JSON.parse(localStorage.getItem("nur-config")||"{}")}catch(e){settings={}}
+settings=Object.assign({city:77,cityName:"Sarajevo",mosque:"Džamija • Sarajevo",orientation:"auto"},settings);
+let today=null,tomorrow=null,lastISO="",interval=0,loading=false,holdTimeout=null;
+function apply(){ $("mosque").textContent=settings.mosque||"Džamija";$("location").textContent=(settings.cityName||"Sarajevo")+", Bosna i Hercegovina";document.body.dataset.orientation=settings.orientation||"auto"; }
+const mins=(s)=>{if(!s)return null;const a=s.split(":").map(Number);return Number.isFinite(a[0])&&Number.isFinite(a[1])?a[0]*60+a[1]:null};
+function currMins(){return Number(fmt({hour:"2-digit",hourCycle:"h23"}))*60+Number(fmt({minute:"2-digit"}))}
+function formatLeft(s){if(s<0)return "--:--:--";return [Math.floor(s/3600),Math.floor(s/60)%60,s%60].map(v=>String(v).padStart(2,"0")).join(":")}
+function render(){
+ const date=dateNow();$("clock").textContent=timeNow();$("date").textContent=fmt({weekday:"long",day:"numeric",month:"long",year:"numeric"});$("todayTag").textContent=fmt({day:"numeric",month:"long"});
+ if(lastISO!==date){lastISO=date;load(true)}
+ if(!today || today.date!==date){ $("nextName").textContent="Vaktija";$("count").textContent="--:--:--";paint([],-1);return }
+ const hms=fmt({hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).split(":").map(Number);
+ const secs=hms[0]*3600+hms[1]*60+hms[2];
+ const timings=today.times.map(mins);let next=timings.findIndex((v,i)=>i!==1&&v!=null&&v*60>secs);
+ let left,from;
+ if(next<0){next=0;const t=(tomorrow && tomorrow.times)?mins(tomorrow.times[0]):null;left=t===null?-1:86400-secs+t*60;from=(timings[5]||0)*60}
+ else{left=timings[next]*60-secs;from=next===0?0:(timings.slice(0,next).filter((v)=>v!==null).at(-1)||0)*60}
+ $("nextName").textContent=names[next];$("count").textContent=formatLeft(left);
+ const to=next===0&&secs>timings[5]*60?86400+(tomorrow?mins(tomorrow.times[0])||0:0)*60:(timings[next]||0)*60;
+ const current=secs>=from?secs:secs+86400;
+ const pct=to>from?Math.min(100,Math.max(0,100*(current-from)/(to-from))):0;
+ $("progress").style.width=pct+"%";
+ paint(today.times,next);
+}
+function paint(times,next){ const el=$("prayers"); const k=times.join("|")+"-"+next;if(el.dataset.k===k)return;el.dataset.k=k;
+ el.innerHTML=names.map((n,i)=>'<div class="prayer '+(i===next?"next":"")+'"><span class="prayer-name">'+n+'</span><span class="prayer-time">'+(times[i]||"--:--")+'</span>'+(i===next?'<small>SLJEDEĆI</small>':"")+'</div>').join("")}
+function dateNext(iso){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+1);return d.toISOString().slice(0,10)}
+async function getTimes(iso){
+ const key="nur-times-"+settings.city+"-"+iso;
+ const api=location.protocol==="file:"?"https://keldin-vaktija.vercel.app":"";
+ try{const res=await fetch(api+"/api/times?city="+settings.city+"&date="+iso,{cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);const data=await res.json();
+ if(!Array.isArray(data.vakat)||data.vakat.length!==6||data.vakat.some(x=>mins(x)===null))throw Error("Neispravni podaci");
+ const out={date:iso,times:data.vakat};localStorage.setItem(key,JSON.stringify(out));return out}
+ catch(e){try{const old=JSON.parse(localStorage.getItem(key)||"null");if(old&&old.date===iso)return old}catch(_){}return null}
+}
+async function load(force){if(loading)return;loading=true;const date=dateNow(); if(force){today=null;tomorrow=null}; const token=settings.city;
+ const a=await Promise.all([getTimes(date),getTimes(dateNext(date))]);if(token!==settings.city){loading=false;return}
+ today=a[0];tomorrow=a[1];$("source").textContent=today?"Ažurni podaci za "+settings.cityName:"Podaci nedostupni";
+ $("warn").textContent=today?"":"Provjerite internet i datum uređaja";
+ loading=false;render()}
+function openSettings(){$("mosqueInput").value=settings.mosque;$("citySelect").value=String(settings.city);$("orientation").value=settings.orientation||"auto";$("modal").classList.add("open");$("mosqueInput").focus()}
+function closeSettings(){$("modal").classList.remove("open")}
+$("settingsBtn").onclick=openSettings;$("cancel").onclick=closeSettings;
+$("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeSettings()});
+$("citySelect").innerHTML=cityChoices.map(([name,id])=>'<option value="'+id+'">'+name+'</option>').join("");
+$("save").onclick=()=>{const city=Number($("citySelect").value),mosque=$("mosqueInput").value.trim();settings.city=city;settings.cityName=cityChoices.find(v=>v[1]===city)[0];settings.mosque=mosque||"Džamija • "+settings.cityName;settings.orientation=$("orientation").value;localStorage.setItem("nur-config",JSON.stringify(settings));apply();closeSettings();lastISO="";today=null;load(true)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"||e.key==="Backspace"&&$("modal").classList.contains("open")){closeSettings();e.preventDefault();return}
+if(e.key==="s"||e.key==="S"||e.key==="F1"){openSettings();return}
+if((e.key==="Enter"||e.key===" " )&&!$("modal").classList.contains("open")){clearTimeout(holdTimeout);holdTimeout=setTimeout(openSettings,2300)}
+});
+document.addEventListener("keyup",e=>{if(e.key==="Enter"||e.key===" ")clearTimeout(holdTimeout)});
+apply();render();load(true);setInterval(render,1000);setInterval(()=>load(false),20*60*1000);
+window.openNurSettings=openSettings;
+})();
+</script></body></html>
