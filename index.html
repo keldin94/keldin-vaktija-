@@ -121,6 +121,9 @@ if(e.key==="s"||e.key==="S"||e.key==="F1"){openSettings();return}
 if((e.key==="Enter"||e.key===" " )&&!$("modal").classList.contains("open")){clearTimeout(holdTimeout);holdTimeout=setTimeout(openSettings,2300)}
 });
 document.addEventListener("keyup",e=>{if(e.key==="Enter"||e.key===" ")clearTimeout(holdTimeout)});
+if("serviceWorker" in navigator && location.protocol==="https:") {
+  navigator.serviceWorker.register("/sw.js").catch(()=>{});
+}
 apply();render();load(true);setInterval(render,1000);setInterval(()=>load(false),20*60*1000);
 window.openNurSettings=openSettings;
 })();
