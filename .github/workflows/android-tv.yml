@@ -38,6 +38,25 @@ jobs:
           name: Nur-Vaktija-Preview-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
+      - name: Rename preview APK for Downloader
+        if: github.ref == 'refs/heads/main'
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Nur-Vaktija-Preview.apk
+      - name: Publish public TV test APK
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: preview
+          name: Nur Vaktija — testna verzija
+          prerelease: true
+          make_latest: false
+          overwrite_files: true
+          body: |
+            Testna Android TV aplikacija, za probu dizajna i funkcionalnosti.
+            Debug potpis se može promijeniti pri narednoj gradnji. Za novi preview
+            može biti potrebno ukloniti prethodnu aplikaciju.
+            Stabilna ažuriranja zahtijevaju trajni release potpis.
+          files: Nur-Vaktija-Preview.apk
+
       - name: Ensure production signing secrets are configured
         if: startsWith(github.ref, 'refs/tags/v')
         env:
