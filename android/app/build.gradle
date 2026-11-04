@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'ba.keldin.nurvaktija'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'ba.keldin.nurvaktija'
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName '0.1.0'
+    }
+
+    signingConfigs {
+        release {
+            if (System.getenv('VAKTIJA_SIGNING_STORE')) {
+                storeFile file(System.getenv('VAKTIJA_SIGNING_STORE'))
+                storePassword System.getenv('VAKTIJA_STORE_PASSWORD')
+                keyAlias System.getenv('VAKTIJA_KEY_ALIAS')
+                keyPassword System.getenv('VAKTIJA_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (System.getenv('VAKTIJA_SIGNING_STORE')) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug { minifyEnabled false }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies { }
